@@ -45,20 +45,21 @@ func TestInValidAge(t *testing.T){
 	g.Expect(err.Error()).To(Equal("Age is required"))
 }
 func TestInvalidEmail(t *testing.T){
-	g := NewGomegaWithT(t)
-	student := entity.Student{
+	t.Run(`Email must be a valid email address`, func(t *testing.T){
+		g := NewGomegaWithT(t)
+	    student := entity.Student{
 		Fullname: "John",
 		Age: 20,
 		Email: "invalid-email",		
 		GPA: 3.5,
-	}
-	ok, err := entity.ValidationStudent(&student)
-	g.Expect(ok).To(BeFalse())
-	g.Expect(err.Error()).To(Equal("Email must be a valid email address"))
-}
-func TestInvalidEmail2(t *testing.T){
-	g := NewGomegaWithT(t)
-	student := entity.Student{
+	   }
+	   ok, err := entity.ValidationStudent(&student)
+	   g.Expect(ok).To(BeFalse())
+	   g.Expect(err.Error()).To(Equal("Email must be a valid email address"))
+    })
+	 t.Run(`Email is required`, func(t *testing.T){
+		g := NewGomegaWithT(t)
+	   student := entity.Student{
 		Fullname: "John",
 		Age: 20,
 		Email: "",		
@@ -67,7 +68,10 @@ func TestInvalidEmail2(t *testing.T){
 	ok, err := entity.ValidationStudent(&student)
 	g.Expect(ok).To(BeFalse())
 	g.Expect(err.Error()).To(Equal("Email is required"))
+	 })
+	
 }
+
 
 func TestInvalidGPA(t *testing.T){
 	g := NewGomegaWithT(t)
